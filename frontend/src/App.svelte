@@ -5,7 +5,6 @@
 	import "@fontsource/fira-sans";
 	import "@fontsource/arvo";
 	import "@fontsource/fira-code";
-
 </script>
 
 <main>
@@ -24,16 +23,13 @@
 </main>
 
 <style lang="scss">
-	$color1: #edf2fb;
-	$color2: #d7e3fc;
-	$color3: #013a63;
-
 	:global(body) {
 		font-family: "Fira Sans";
 	}
 
 	:global(.aa-DropZone) {
-		color: darkgrey;
+		color: var(--fg-color2);
+		background-color: var(--bg-color);
 	}
 
 	main {
@@ -42,17 +38,13 @@
 		margin: auto;
 		padding: 0rem 2rem;
 
-		a {
-			color: $color3;
-		}
-
 		.bar {
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
 
 			h1 > a {
-				color: black;
+				color: var(--fg-color1);
 				&:hover {
 					text-decoration: none;
 				}

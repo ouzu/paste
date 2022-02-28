@@ -23,10 +23,14 @@
         font-family: "Fira Code";
         overflow: auto;
         border-radius: 0.3rem;
-        background-color: #edf2fb;
+        background-color: var(--ac-1);
 
         .inner {
             margin: 1rem 1rem;
         }
+    }
+
+    :global(.language-css .token.string, .style .token.string, .token.entity, .token.operator, .token.url) {
+        background: transparent !important;
     }
 </style>

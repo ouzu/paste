@@ -1,6 +1,4 @@
-<div class="about">
-    test
-</div>
+<div class="about">test</div>
 
 <style lang="scss">
     .about {

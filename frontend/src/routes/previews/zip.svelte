@@ -1,7 +1,6 @@
 <script>
     export let file;
-    export let name;
-
+    
     import { onMount } from "svelte";
 
     import JSZip from "jszip";
@@ -27,7 +26,7 @@
 </div>
 
 <style lang="scss">
-    ul { 
+    ul {
         list-style: none;
     }
 </style>

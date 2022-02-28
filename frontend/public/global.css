@@ -5,15 +5,37 @@ html, body {
 }
 
 body {
-	color: #333;
+	--bg-color: #fff;
+	--fg-color1: #333;
+	--fg-color2: #777;
+	--ac-link: rgb(0,100,200);
+	--ac-1: #edf2fb;
+	--ac-2: #d7e3fc;
+	--ac-3: #013a63;
+}
+
+@media (prefers-color-scheme: dark) {
+	body {
+		--bg-color: #000;
+		--fg-color1: #eee;
+		--fg-color2: #999;
+		--ac-link: rgb(40,140,240);
+		--ac-1: #171819;
+		--ac-2: #2b2d32;
+		--ac-3: #013a63;
+	}
+}
+
+body {
+	color: var(--fg-color1);
+	background-color: var(--bg-color);
 	margin: 0;
 	padding: 8px;
 	box-sizing: border-box;
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 }
 
 a {
-	color: rgb(0,100,200);
+	color: var(--ac-link);
 	text-decoration: none;
 }
 
@@ -22,42 +44,5 @@ a:hover {
 }
 
 a:visited {
-	color: rgb(0,80,160);
-}
-
-label {
-	display: block;
-}
-
-input, button, select, textarea {
-	font-family: inherit;
-	font-size: inherit;
-	-webkit-padding: 0.4em 0;
-	padding: 0.4em;
-	margin: 0 0 0.5em 0;
-	box-sizing: border-box;
-	border: 1px solid #ccc;
-	border-radius: 2px;
-}
-
-input:disabled {
-	color: #ccc;
-}
-
-button {
-	color: #333;
-	background-color: #f4f4f4;
-	outline: none;
-}
-
-button:disabled {
-	color: #999;
-}
-
-button:not(:disabled):active {
-	background-color: #ddd;
-}
-
-button:focus {
-	border-color: #666;
+	color: var(--ac-link);
 }

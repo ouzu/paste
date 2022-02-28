@@ -1,23 +1,16 @@
 <script lang="ts">
-	import { onMount } from "svelte";
-
 	import "normalize.css/normalize.css";
 	import DropZone from "svelte-atoms/DropZone.svelte";
 
 	import ProgressBar from "svelte-progress-bar";
 
-	import { textToArrayBuffer, arrayBufferToText } from "../crypto/helper";
 	import {
 		generateKey,
-		importKey,
 		exportKey,
 		generateIV,
-		importIV,
 		exportIV,
 		encrypt,
-		decrypt,
 		encryptString,
-		decryptString,
 	} from "../crypto/crypto";
 
 	let files = [];
@@ -45,87 +38,57 @@
 	};
 
 	async function fileHandler(file) {
-		const fileName =  file.name;
+		const fileName = file.name;
 		const fileType = file.type;
 
 		let reader = new FileReader();
-			let iv = generateIV();
-			let ivStr = exportIV(iv);
-			let key = await generateKey();
-			let keyStr = await exportKey(key);
+		let iv = generateIV();
+		let ivStr = exportIV(iv);
+		let key = await generateKey();
+		let keyStr = await exportKey(key);
 
-			reader.onload = async (e) => {
-				let data = e.target.result;
+		reader.onload = async (e) => {
+			let data = e.target.result;
 
-				let requestData = new FormData();
+			let requestData = new FormData();
 
-				requestData.append(
-					"file",
-					new File([await encrypt(data, iv, key)], ivStr)
-				);
-				requestData.append(
-					"name",
-					await encryptString(fileName, iv, key)
-				);
-				requestData.append(
-					"type",
-					await encryptString(fileType, iv, key)
-				);
+			requestData.append(
+				"file",
+				new File([await encrypt(data, iv, key)], ivStr)
+			);
+			requestData.append("name", await encryptString(fileName, iv, key));
+			requestData.append("type", await encryptString(fileType, iv, key));
 
-				console.log("uploading " + fileName + " (" + fileType + ")");
+			let request = new XMLHttpRequest();
+			request.open("PUT", "//localhost:8080/api/files/" + ivStr);
 
-				// fetch() doesn't support progress :(
-				/*fetch("//localhost:8080/api/files/" + ivStr, {
-					method: "PUT",
-					body: requestData,
-				}).then((r) => {
-					if (r.ok) {
-						files.push({
-							name: fileName,
-							url: "/#/files/" + ivStr + "/" + keyStr,
-							error: "",
-						});
-					} else {
-						console.log(r);
-						files.push({
-							name: fileName,
-							url: "",
-							error: r.statusText,
-						});
-					}
-					files = files;
-				});*/
+			request.upload.addEventListener("progress", function (e) {
+				progress.setWidthRatio(e.loaded / e.total);
+			});
 
-				let request = new XMLHttpRequest();
-				request.open("PUT", "//localhost:8080/api/files/" + ivStr);
+			request.addEventListener("load", function (e) {
+				if (request.status == 200) {
+					files.push({
+						name: fileName,
+						url: "/#/files/" + ivStr + "/" + keyStr,
+						error: "",
+					});
+				} else {
+					console.log(request.responseText);
+					files.push({
+						name: fileName,
+						url: "",
+						error: "could not upload",
+					});
+				}
+				progress.setWidthRatio(0);
+				files = files;
+			});
 
-				request.upload.addEventListener("progress", function (e) {
-					progress.setWidthRatio(e.loaded / e.total);
-				});
+			request.send(requestData);
+		};
 
-				request.addEventListener("load", function (e) {
-					if (request.status == 200) {
-						files.push({
-							name: fileName,
-							url: "/#/files/" + ivStr + "/" + keyStr,
-							error: "",
-						});
-					} else {
-						console.log(request.responseText);
-						files.push({
-							name: fileName,
-							url: "",
-							error: "could not upload",
-						});
-					}
-					progress.setWidthRatio(0);
-					files = files;
-				});
-
-				request.send(requestData);
-			};
-
-			reader.readAsArrayBuffer(file);
+		reader.readAsArrayBuffer(file);
 	}
 
 	async function dropHandler(e) {
@@ -161,15 +124,10 @@
 </div>
 
 <style lang="scss">
-	$color1: #edf2fb;
-	$color2: #d7e3fc;
-	$color3: #abc4ff;
-
 	.container {
-		background-color: $color1;
+		background-color: var(--ac-1);
 		border-radius: 0.3rem;
 		padding: 1rem;
 		margin: 0 -1rem;
-		//box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 	}
 </style>
