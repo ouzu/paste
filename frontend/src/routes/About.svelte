@@ -1,4 +1,8 @@
-<div class="about">test</div>
+<script>
+    import { _ } from "../i18n";
+</script>
+
+<div class="about">{$_("about.text")}</div>
 
 <style lang="scss">
     .about {

@@ -1,6 +1,10 @@
+<script>
+	import { _ } from "../i18n";
+</script>
+
 <div class="notfound">
-	<h1>Not Found</h1>
-	<p>This route doesn't exist.</p>
+	<h1>{$_("notfound.title")}</h1>
+	<p>{$_("notfound.message")}</p>
 </div>
 
 <style lang="scss">

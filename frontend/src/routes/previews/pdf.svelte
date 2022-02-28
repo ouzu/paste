@@ -1,11 +1,14 @@
 <script>
     export let url;
     export let name;
+
+    import { _ } from "../../i18n";
+
 </script>
 
 <div class="pdf">
     <object title={name} class="display-pdf" data={url} type="application/pdf">
-        It appears your Web browser is not configured to display PDF files.
+        {$_("file.pdf.warning")}
     </object>
 </div>
 

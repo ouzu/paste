@@ -1,8 +1,10 @@
 <script>
     export let file;
-    
+
     import { onMount } from "svelte";
 
+    import { _ } from "../../i18n";
+    
     import JSZip from "jszip";
 
     var zip = new JSZip();
@@ -17,7 +19,7 @@
 </script>
 
 <div class="zip">
-    <p>archive contents:</p>
+    <p>{$_("file.zip.contents")}</p>
     <ul>
         {#each files as f}
             <li>{f}</li>

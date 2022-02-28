@@ -13,9 +13,13 @@
 		encryptString,
 	} from "../crypto/crypto";
 
+	import { _ } from "../i18n";
+
 	let files = [];
 
 	let progress;
+
+	let uploading = false;
 
 	document.onpaste = function (event) {
 		const items = event.clipboardData.items;
@@ -38,6 +42,8 @@
 	};
 
 	async function fileHandler(file) {
+		uploading = true;
+
 		const fileName = file.name;
 		const fileType = file.type;
 
@@ -82,6 +88,7 @@
 					});
 				}
 				progress.setWidthRatio(0);
+				uploading = false;
 				files = files;
 			});
 
@@ -109,10 +116,17 @@
 	<ProgressBar bind:this={progress} color="#abc4ff" />
 
 	<div class="container">
-		<DropZone on:drop={dropHandler} on:change={dropHandler} />
+		<DropZone
+			title={$_("home.drag")}
+			buttonTitle={$_("home.select")}
+			activeTitle={$_("home.drop")}
+			on:drop={dropHandler}
+			on:change={dropHandler}
+			disabled={uploading}
+		/>
 	</div>
 	{#if files.length > 0}
-		<h3>Files:</h3>
+		<h3>{$_("home.files")}</h3>
 		{#each files as { name, url, error }}
 			{#if error === ""}
 				<p><a href={url} download={name}>{name}</a></p>

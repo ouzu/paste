@@ -2,18 +2,23 @@
 	import Router from "svelte-spa-router";
 	import routes from "./routes";
 
+	import { _, setupI18n } from "./i18n";
+
 	import "@fontsource/fira-sans";
 	import "@fontsource/arvo";
 	import "@fontsource/fira-code";
+
+	//setupI18n({ withLocale: "de" });
+	setupI18n();
 </script>
 
 <main>
 	<div class="bar">
 		<div class="heading">
-			<h1><a href="/#/">paste</a></h1>
+			<h1><a href="/#/">{$_("app.title")}</a></h1>
 		</div>
 		<div class="links">
-			<a href="/#/about">about</a>
+			<a href="/#/about">{$_("app.aboutLink")}</a>
 			<!--<a href="/#/debug">debug</a>-->
 		</div>
 	</div>

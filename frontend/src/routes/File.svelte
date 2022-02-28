@@ -11,6 +11,8 @@
     import Text from "./previews/text.svelte";
     import Zip from "./previews/zip.svelte";
 
+    import { _ } from "../i18n";
+
     import ProgressBar from "svelte-progress-bar";
 
     import { getEncoding } from "istextorbinary";
@@ -36,8 +38,6 @@
     let metaReady = false;
     let previewReady = false;
 
-    let largeFile = false;
-
     let progress;
 
     let binary;
@@ -45,8 +45,6 @@
     const decoder = new TextDecoder();
 
     async function loadFile() {
-        largeFile = false;
-
         const responseReader = resp.body.getReader();
 
         let received = 0;
@@ -113,19 +111,16 @@
             <div class="bar">
                 <p>{name}</p>
                 <p>
-                    {#if largeFile}
-                        <button on:click={loadFile}>load</button>
-                    {/if}
-                </p>
-                <p>
                     <span>{filesize(size)}</span>
-                    <span
-                        ><a
+                    <span>
+                        <a
                             href={url}
                             download={name}
-                            class:disabled={!previewReady}>save</a
-                        ></span
-                    >
+                            class:disabled={!previewReady}
+                        >
+                            {$_("file.save")}
+                        </a>
+                    </span>
                 </p>
             </div>
         </div>
