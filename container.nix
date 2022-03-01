@@ -5,23 +5,22 @@ nixpkgs.lib.nixosSystem {
 
   modules = [
     ({ pkgs, ... }:
-      let
-        httpPort = 443;
-      in
       {
         boot.isContainer = true;
 
         networking.useDHCP = false;
-        networking.firewall.allowedTCPPorts = [ httpPort ];
+        networking.firewall.allowedTCPPorts = [ 80 443 ];
 
         systemd.services.paste = {
           description = "paste";
 
           environment = {
             PASTE_DATA_DIR = "/data";
-            PASTE_ADDR = "0.0.0.0:${toString httpPort}";
             PASTE_FRONTEND_DIR = "${frontend}/public";
-            PASTE_SSL = "yes";
+
+            GIN_MODE = "release";
+            PORT = "80";
+            HTTPS_PORT = "443";
           };
 
           preStart = ''

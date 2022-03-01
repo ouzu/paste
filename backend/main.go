@@ -146,13 +146,13 @@ func main() {
 	r.StaticFile("/global.css", filepath.Join(frontendDir, "global.css"))
 	r.StaticFile("/favicon.png", filepath.Join(frontendDir, "favicon.png"))
 
-	if os.Getenv("PASTE_SSL") == "" {
-		r.Run(os.Getenv("PASTE_ADDR"))
-	} else {
-		r.RunTLS(
-			os.Getenv("PASTE_ADDR"),
+	if port := os.Getenv("HTTPS_PORT"); port != "" {
+		go r.RunTLS(
+			"0.0.0.0:"+port,
 			filepath.Join(dataDir, "paste.cert"),
 			filepath.Join(dataDir, "paste.key"),
 		)
 	}
+
+	r.Run()
 }
