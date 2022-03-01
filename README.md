@@ -12,6 +12,9 @@
 - paste files
 - paste text
 - dark mode
+- localization en/de
+- build packages using nix
+- container
 
 ## todo
 - select file extension for pasted text

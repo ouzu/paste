@@ -66,7 +66,7 @@
 			requestData.append("type", await encryptString(fileType, iv, key));
 
 			let request = new XMLHttpRequest();
-			request.open("PUT", "//localhost:8080/api/files/" + ivStr);
+			request.open("PUT", "/api/files/" + ivStr);
 
 			request.upload.addEventListener("progress", function (e) {
 				progress.setWidthRatio(e.loaded / e.total);

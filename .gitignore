@@ -2,3 +2,5 @@
 /frontend/public/build/
 /backend/files/
 /.direnv
+/result
+/.tmp

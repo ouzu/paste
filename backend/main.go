@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path/filepath"
 
 	"github.com/gin-gonic/gin"
 	bolt "go.etcd.io/bbolt"
@@ -22,7 +23,21 @@ func (f FileData) JSON() []byte {
 }
 
 func main() {
-	db, err := bolt.Open("./files/meta.db", 0666, nil)
+	dataDir := os.Getenv("PASTE_DATA_DIR")
+	if dataDir == "" {
+		dataDir = "./data"
+	}
+
+	fileDir := filepath.Join(dataDir, "files")
+
+	os.MkdirAll(fileDir, 0755)
+
+	frontendDir := os.Getenv("PASTE_FRONTEND_DIR")
+	if frontendDir == "" {
+		frontendDir = "../frontend/public"
+	}
+
+	db, err := bolt.Open(filepath.Join(dataDir, "meta.db"), 0666, nil)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -32,6 +47,8 @@ func main() {
 
 	r.PUT("/api/files/:iv", func(c *gin.Context) {
 		iv := c.Param("iv")
+
+		filePath := filepath.Join(fileDir, iv)
 
 		fileName := c.PostForm("name")
 		if fileName == "" {
@@ -58,17 +75,17 @@ func main() {
 			return
 		}
 
-		if err := c.SaveUploadedFile(file, "./files/"+iv); err != nil {
+		if err := c.SaveUploadedFile(file, filePath); err != nil {
 			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
 				"error": "could not save",
 			})
 			return
 		}
 
-		fi, err := os.Stat("./files/" + iv)
+		fi, err := os.Stat(filePath)
 		if err != nil {
 			log.Println(err)
-			os.Remove("./files/" + iv)
+			os.Remove(filePath)
 			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
 				"error": "could not stat",
 			})
@@ -91,7 +108,7 @@ func main() {
 			return nil
 
 		}); err != nil {
-			os.Remove("./files/" + iv)
+			os.Remove(filePath)
 			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
 				"error": "could not open bucket",
 			})
@@ -122,7 +139,20 @@ func main() {
 		})
 	})
 
-	r.StaticFS("/api/files", http.Dir("files"))
+	r.StaticFS("/api/files", gin.Dir(fileDir, false))
 
-	r.Run()
+	r.StaticFS("/build", gin.Dir(filepath.Join(frontendDir, "build"), false))
+	r.StaticFile("/", filepath.Join(frontendDir, "index.html"))
+	r.StaticFile("/global.css", filepath.Join(frontendDir, "global.css"))
+	r.StaticFile("/favicon.png", filepath.Join(frontendDir, "favicon.png"))
+
+	if os.Getenv("PASTE_SSL") == "" {
+		r.Run(os.Getenv("PASTE_ADDR"))
+	} else {
+		r.RunTLS(
+			os.Getenv("PASTE_ADDR"),
+			filepath.Join(dataDir, "paste.cert"),
+			filepath.Join(dataDir, "paste.key"),
+		)
+	}
 }

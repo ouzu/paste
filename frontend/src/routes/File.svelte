@@ -90,12 +90,12 @@
         iv = importIV(params.iv);
 
         let meta = await (
-            await fetch("//localhost:8080/api/meta/" + params.iv)
+            await fetch("/api/meta/" + params.iv)
         ).json();
         name = await decryptString(meta.Name, iv, key);
         type = await decryptString(meta.Type, iv, key);
 
-        resp = await fetch("//localhost:8080/api/files/" + params.iv);
+        resp = await fetch("/api/files/" + params.iv);
         size = Number(resp.headers.get("content-length"));
 
         metaReady = true;

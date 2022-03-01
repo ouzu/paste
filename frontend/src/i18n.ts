@@ -14,7 +14,7 @@ function setupI18n({ withLocale: _locale } = { withLocale: getLocaleFromNavigato
                 drop: "Drop to upload",
             },
             about: {
-                text: "...",
+                text: "Work in progress...",
             },
             file: {
                 save: "save",
@@ -42,7 +42,7 @@ function setupI18n({ withLocale: _locale } = { withLocale: getLocaleFromNavigato
                 drop: "Lasse los zum hochladen",
             },
             about: {
-                text: "...",
+                text: "Diese Seite ist noch in Arbeit...",
             },
             file: {
                 save: "speichern",

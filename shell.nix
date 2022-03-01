@@ -1,7 +1,7 @@
 { pkgs ? import <nixpkgs> { } }:
 with pkgs;
 mkShell {
-  name = "waschhausapp-shell";
+  name = "paste-shell";
   buildInputs = [
     # go
     go_1_17
@@ -10,13 +10,11 @@ mkShell {
     # nodejs
     nodejs
     nodePackages.npm
-
-    # debugging
-    gdb
-    sqlite
+    nodePackages.node2nix
+    nodePackages.rollup
 
     # other
-    gnumake
     xh
+    nixpkgs-fmt
   ];
 }
