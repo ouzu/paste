@@ -24,7 +24,7 @@ nixpkgs.lib.nixosSystem {
           };
 
           preStart = ''
-            mkdir /data
+            mkdir -p /data
 
             ${pkgs.openssl}/bin/openssl req -new -newkey rsa:4096 -nodes \
               -keyout /data/paste.key -out /data/paste.csr \
