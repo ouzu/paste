@@ -5,7 +5,6 @@
 	import { _, setupI18n } from "./i18n";
 
 	import "@fontsource/fira-sans";
-	import "@fontsource/arvo";
 	import "@fontsource/fira-code";
 
 	//setupI18n({ withLocale: "de" });
