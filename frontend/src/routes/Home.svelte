@@ -25,16 +25,24 @@
 		const items = event.clipboardData.items;
 		for (var i = 0; i < items.length; i++) {
 			const item = items[i];
-			console.log(item);
 
 			if (item.kind === "file") {
 				fileHandler(item.getAsFile());
 			} else if (item.kind === "string" && item.type === "text/plain") {
 				items[i].getAsString((s) => {
-					console.log(s);
 					const encoder = new TextEncoder();
-					let f = new File([encoder.encode(s)], "paste.txt");
+					let f = new File([encoder.encode(s)], "paste.txt", {
+						type: "text/plain",
+					});
 
+					fileHandler(f);
+				});
+			} else if (item.kind === "string" && item.type === "text/html") {
+				items[i].getAsString((s) => {
+					const encoder = new TextEncoder();
+					let f = new File([encoder.encode(s)], "paste.html", {
+						type: "text/html",
+					});
 					fileHandler(f);
 				});
 			}
@@ -129,7 +137,7 @@
 		<h3>{$_("home.files")}</h3>
 		{#each files as { name, url, error }}
 			{#if error === ""}
-				<p><a href={url} download={name}>{name}</a></p>
+				<p><a href={url} target="_blank">{name}</a></p>
 			{:else}
 				<p>{name} - Error: {error}</p>
 			{/if}

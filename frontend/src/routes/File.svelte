@@ -10,6 +10,7 @@
     import Video from "./previews/video.svelte";
     import Text from "./previews/text.svelte";
     import Zip from "./previews/zip.svelte";
+    import Html from "./previews/html.svelte";
 
     import { _ } from "../i18n";
 
@@ -72,9 +73,7 @@
 
             binary = getEncoding(decoder.decode(data)) === "binary";
 
-            if (!binary) {
-                text = decoder.decode(data);
-            }
+            text = decoder.decode(data);
 
             file = new Blob([data]);
             url = URL.createObjectURL(file);
@@ -157,6 +156,8 @@
             <div class="container zip">
                 <Zip {file} />
             </div>
+        {:else if type === "text/html"}
+            <Html {text} {name} />
         {:else if !binary}
             <Text {text} {name} />
         {:else}

@@ -36,7 +36,7 @@ nixpkgs.lib.nixosSystem {
           '';
 
           serviceConfig = {
-            ExecStart = "${backend}/bin/paste";
+            ExecStart = "${backend}/bin/backend";
           };
 
           wantedBy = [ "default.target" ];

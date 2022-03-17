@@ -38,7 +38,7 @@
             };
           };
 
-          defaultPackage = self.packages.${system}.paste-frontend;
+          defaultPackage = self.packages.${system}.paste-backend;
         }
       );
 }
