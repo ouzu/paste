@@ -17,6 +17,7 @@
                 paste-frontend-deps = paste-frontend-deps;
                 paste-frontend = paste-frontend;
                 paste-backend = paste-backend;
+                paste-client = paste-client;
               })
             ];
           };
@@ -28,6 +29,7 @@
             paste-frontend-deps = pkgs.napalm.buildPackage ./frontend { };
             paste-frontend = import ./frontend.nix { inherit pkgs; };
             paste-backend = import ./backend.nix { inherit pkgs; };
+            paste-client = import ./client.nix { inherit pkgs; };
 
             nixosConfigurations.container = import ./container.nix {
               inherit system;
