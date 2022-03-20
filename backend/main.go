@@ -37,6 +37,11 @@ func main() {
 		frontendDir = "../frontend/public"
 	}
 
+	releaseDir := os.Getenv("PASTE_RELEASE_DIR")
+	if releaseDir == "" {
+		releaseDir = "../client/release"
+	}
+
 	db, err := bolt.Open(filepath.Join(dataDir, "meta.db"), 0666, nil)
 	if err != nil {
 		log.Fatalln(err)
@@ -140,6 +145,7 @@ func main() {
 	})
 
 	r.StaticFS("/api/files", gin.Dir(fileDir, false))
+	r.StaticFS("/releases", gin.Dir(releaseDir, true))
 
 	r.StaticFS("/build", gin.Dir(filepath.Join(frontendDir, "build"), false))
 	r.StaticFile("/", filepath.Join(frontendDir, "index.html"))

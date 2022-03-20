@@ -6,6 +6,7 @@ function setupI18n({ withLocale: _locale } = { withLocale: getLocaleFromNavigato
             app: {
                 title: "paste",
                 aboutLink: "about",
+                clientLink: "client",
             },
             home: {
                 files: "Files:",
@@ -15,6 +16,15 @@ function setupI18n({ withLocale: _locale } = { withLocale: getLocaleFromNavigato
             },
             about: {
                 text: "Work in progress...",
+            },
+            client: {
+                heading: "client",
+                summary: "The commandline client can be used to store and retreive files.",
+                usage: "basic usage",
+                upload: "To upload a file to this server use:",
+                download: "To download a file from this server use:",
+                help: "To checkout more options use:",
+                releases: "releases",
             },
             file: {
                 save: "save",
@@ -32,8 +42,9 @@ function setupI18n({ withLocale: _locale } = { withLocale: getLocaleFromNavigato
         },
         de: {
             app: {
-                title: "paste",
+                title: "Paste",
                 aboutLink: "Info",
+                clientLink: "Client",
             },
             home: {
                 files: "Dateien:",
@@ -43,6 +54,15 @@ function setupI18n({ withLocale: _locale } = { withLocale: getLocaleFromNavigato
             },
             about: {
                 text: "Diese Seite ist noch in Arbeit...",
+            },
+            client: {
+                heading: "Client",
+                summary: "Der Kommandozeilen-Client kann benutzt werden, um Dateien hoch- und runterzuladen.",
+                usage: "Grundlegende Nutzung",
+                upload: "Um eine Datei hochzuladen:",
+                download: "Um eine Datei herunterzuladen:",
+                help: "Um weitere Optionen anzuschauen:",
+                releases: "Releases",
             },
             file: {
                 save: "speichern",

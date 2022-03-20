@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "build": "rollup -c",
+    "start": "npx serve -n -l 5000 public",
     "dev": "rollup -c -w",
     "validate": "svelte-check"
   },

@@ -12,6 +12,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"path"
 	"regexp"
 	"strings"
 
@@ -62,6 +63,7 @@ func UploadHandler(c *cli.Context) error {
 		return err
 	}
 
+	_, f.Name = path.Split(f.Name)
 	f.Type = http.DetectContentType(data)
 	f.Size = int64(len(data))
 

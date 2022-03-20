@@ -18,6 +18,8 @@
 		</div>
 		<div class="links">
 			<a href="/#/about">{$_("app.aboutLink")}</a>
+			•
+			<a href="/#/client">{$_("app.clientLink")}</a>
 			<!--<a href="/#/debug">debug</a>-->
 		</div>
 	</div>

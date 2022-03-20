@@ -13,6 +13,7 @@
             inherit system;
             overlays = [
               napalm.overlay
+              self.overlay.${system}
             ];
           };
         in
@@ -20,10 +21,13 @@
           devShell = import ./shell.nix { inherit pkgs; };
 
           packages = {
-            paste-frontend-deps = pkgs.napalm.buildPackage ./frontend { };
-            paste-frontend = import ./frontend.nix { inherit pkgs; };
+            paste-frontend = import ./frontend.nix {
+              inherit pkgs;
+              deps = pkgs.napalm.buildPackage ./frontend { };
+            };
             paste-backend = import ./backend.nix { inherit pkgs; };
             paste-client = import ./client.nix { inherit pkgs; };
+            paste-release = import ./release.nix { inherit pkgs; };
 
             nixosConfigurations.container = import ./container.nix {
               inherit system;
@@ -31,6 +35,7 @@
 
               frontend = pkgs.paste-frontend;
               backend = pkgs.paste-backend;
+              release = pkgs.paste-release;
             };
           };
 
@@ -38,6 +43,7 @@
             paste-frontend = paste-frontend;
             paste-backend = paste-backend;
             paste-client = paste-client;
+            paste-release = paste-release;
           });
 
           defaultPackage = self.packages.${system}.paste-backend;

@@ -1,4 +1,4 @@
-{ pkgs }:
+{ pkgs, deps }:
 with pkgs;
 
 stdenv.mkDerivation {
@@ -12,7 +12,7 @@ stdenv.mkDerivation {
   ];
 
   buildPhase = ''
-    ln -s ${paste-frontend-deps}/_napalm-install/node_modules ./node_modules
+    ln -s ${deps}/_napalm-install/node_modules ./node_modules
 
     rollup -c
   '';

@@ -1,4 +1,4 @@
-{ nixpkgs, system, frontend, backend }:
+{ nixpkgs, system, frontend, backend, release }:
 
 nixpkgs.lib.nixosSystem {
   inherit system;
@@ -17,6 +17,7 @@ nixpkgs.lib.nixosSystem {
           environment = {
             PASTE_DATA_DIR = "/data";
             PASTE_FRONTEND_DIR = "${frontend}/public";
+            PASTE_RELEASE_DIR = "${release}";
 
             GIN_MODE = "release";
             PORT = "80";
@@ -36,7 +37,7 @@ nixpkgs.lib.nixosSystem {
           '';
 
           serviceConfig = {
-            ExecStart = "${backend}/bin/backend";
+            ExecStart = "${backend}/bin/paste-backend";
           };
 
           wantedBy = [ "default.target" ];
