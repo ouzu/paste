@@ -4,7 +4,7 @@
     const releases = [
         { os: "linux", arch: ["amd64", "arm64", "arm5"] },
         { os: "darwin", arch: ["amd64", "arm64"] },
-        { os: "windows", arch: ["amd64"] },
+        { os: "windows", arch: ["amd64"], "ext": ".exe" },
         { os: "android", arch: ["arm64"] },
     ];
 </script>
@@ -32,7 +32,7 @@
                 <ul>
                     {#each r["arch"] as a}
                         <li>
-                            <a href="/releases/{r['os']}-{a}/pst" download
+                            <a href="/releases/{r['os']}-{a}/pst{r["ext"] || ""}" download
                                 >{a}</a
                             >
                         </li>
