@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 
@@ -13,27 +12,44 @@ func main() {
 		Usage: "share your files",
 		Commands: []*cli.Command{
 			{
-				Name:    "upload",
-				Aliases: []string{"up", "u"},
-				Usage:   "upload a file",
+				Name:      "upload",
+				Aliases:   []string{"up", "u"},
+				Usage:     "upload a file",
+				ArgsUsage: "[file] (will read from stdin if no file specified)",
 				Flags: []cli.Flag{
-					&cli.StringFlag{Name: "file", Aliases: []string{"f"}},
-					&cli.StringFlag{Name: "stdin", Aliases: []string{"s"}},
+					&cli.StringFlag{
+						Name:    "name",
+						Aliases: []string{"n"},
+						Usage:   "filename after upload",
+					},
 				},
-				Action: func(c *cli.Context) error {
-					fmt.Println(c.Args())
-					fmt.Println("added task: ", c.Args().First())
-					return nil
-				},
+				Action: UploadHandler,
 			},
 			{
-				Name:    "download",
-				Aliases: []string{"down", "d"},
-				Usage:   "download a file",
-				Action: func(c *cli.Context) error {
-					fmt.Println("completed task: ", c.Args().First())
-					return nil
+				Name:      "download",
+				Aliases:   []string{"down", "d"},
+				Usage:     "download a file",
+				ArgsUsage: "[url]",
+				Flags: []cli.Flag{
+					&cli.StringFlag{
+						Name:    "name",
+						Aliases: []string{"n"},
+						Usage:   "filename after download",
+					},
 				},
+				Action: DownloadHandler,
+			},
+		},
+		Flags: []cli.Flag{
+			&cli.BoolFlag{
+				Name:  "debug",
+				Usage: "print debug log",
+				Value: false,
+			},
+			&cli.StringFlag{
+				Name:  "server",
+				Usage: "server address",
+				Value: "paste.laze.today",
 			},
 		},
 	}

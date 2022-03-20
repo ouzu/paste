@@ -9,7 +9,7 @@ import (
 )
 
 func generateIV() []byte {
-	iv := make([]byte, 16)
+	iv := make([]byte, 12)
 
 	_, err := rand.Read(iv)
 	if err != nil {
@@ -19,12 +19,16 @@ func generateIV() []byte {
 	return iv
 }
 
-func exportIV(iv []byte) string {
+func exportB58(iv []byte) string {
 	return base58.Encode(iv)
 }
 
+func importB58(iv string) []byte {
+	return base58.Decode(iv)
+}
+
 func generateKey() []byte {
-	key := make([]byte, 256)
+	key := make([]byte, 32)
 
 	_, err := rand.Read(key)
 	if err != nil {
@@ -45,7 +49,7 @@ func encrypt(data []byte, iv []byte, key []byte) []byte {
 		panic(err)
 	}
 
-	encrypted := gcm.Seal(iv, iv, data, nil)
+	encrypted := gcm.Seal(nil, iv, data, nil)
 	return encrypted
 }
 
@@ -60,7 +64,7 @@ func decrypt(encrypted []byte, iv []byte, key []byte) []byte {
 		panic(err)
 	}
 
-	data, err := gcm.Open(nil, iv, encrypted, nil)
+	data, err := gcm.Open(nil, iv[:gcm.NonceSize()], encrypted, nil)
 	if err != nil {
 		panic(err)
 	}
