@@ -10,6 +10,7 @@ import (
 
 func main() {
 	app := &cli.App{
+		Usage: "share your files",
 		Commands: []*cli.Command{
 			{
 				Name:    "upload",

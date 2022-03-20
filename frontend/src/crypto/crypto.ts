@@ -5,7 +5,7 @@ const keyUsage: KeyUsage[] = [
     "decrypt",
 ];
 
-const algorithm = "AES-CBC";
+const algorithm = "AES-GCM";
 const keyFormat = "raw";
 
 export function generateIV(): Uint8Array {
@@ -47,7 +47,7 @@ export async function importKey(s: string): Promise<CryptoKey> {
 
 export async function encrypt(data: ArrayBuffer, iv: Uint8Array, key: CryptoKey): Promise<ArrayBuffer> {
     return await crypto.subtle.encrypt(
-        { name: "AES-CBC", iv },
+        { name: algorithm, iv },
         key,
         data
     )
@@ -55,7 +55,7 @@ export async function encrypt(data: ArrayBuffer, iv: Uint8Array, key: CryptoKey)
 
 export async function decrypt(data: ArrayBuffer, iv: Uint8Array, key: CryptoKey): Promise<ArrayBuffer> {
     return await crypto.subtle.decrypt(
-        { name: "AES-CBC", iv },
+        { name: algorithm, iv },
         key,
         data
     )
