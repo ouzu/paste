@@ -9,7 +9,7 @@ const algorithm = "AES-GCM";
 const keyFormat = "raw";
 
 export function generateIV(): Uint8Array {
-    return crypto.getRandomValues(new Uint8Array(16));
+    return crypto.getRandomValues(new Uint8Array(12));
 }
 
 export function exportIV(iv: Uint8Array): string {
