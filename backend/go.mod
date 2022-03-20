@@ -1,4 +1,4 @@
-module ouzu.tech/paste/backend
+module ouzu.tech/paste/paste-backend
 
 go 1.17
 

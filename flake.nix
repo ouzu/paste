@@ -13,12 +13,6 @@
             inherit system;
             overlays = [
               napalm.overlay
-              (final: prev: with self.packages.${system}; {
-                paste-frontend-deps = paste-frontend-deps;
-                paste-frontend = paste-frontend;
-                paste-backend = paste-backend;
-                paste-client = paste-client;
-              })
             ];
           };
         in
@@ -39,6 +33,12 @@
               backend = pkgs.paste-backend;
             };
           };
+
+          overlay = (final: prev: with self.packages.${system}; {
+            paste-frontend = paste-frontend;
+            paste-backend = paste-backend;
+            paste-client = paste-client;
+          });
 
           defaultPackage = self.packages.${system}.paste-backend;
         }
