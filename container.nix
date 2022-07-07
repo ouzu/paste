@@ -6,6 +6,7 @@ nixpkgs.lib.nixosSystem {
   modules = [
     ({ pkgs, ... }:
       {
+        system.stateVersion = "22.11";
         boot.isContainer = true;
 
         networking.useDHCP = false;

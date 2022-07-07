@@ -5,7 +5,7 @@ buildGoModule rec {
   name = "paste";
   version = "1.0.0";
 
-  vendorSha256 = "sha256-EtrmTocz1+7kPlSf8f3NKhndvOsMHzjvriKOuqjx314=";
+  vendorSha256 = "sha256-zsHUV1HQzzUaWUEVW+HoukoIbnUy44FgjleUO3puIoc=";
 
   src = ./backend;
 }
