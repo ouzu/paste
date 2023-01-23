@@ -28,15 +28,6 @@
             paste-backend = import ./backend.nix { inherit pkgs; };
             paste-client = import ./client.nix { inherit pkgs; };
             paste-release = import ./release.nix { inherit pkgs; };
-
-            nixosConfigurations.container = import ./container.nix {
-              inherit system;
-              inherit nixpkgs;
-
-              frontend = pkgs.paste-frontend;
-              backend = pkgs.paste-backend;
-              release = pkgs.paste-release;
-            };
           };
 
           overlay = (final: prev: with self.packages.${system}; {
@@ -47,6 +38,22 @@
           });
 
           defaultPackage = self.packages.${system}.paste-backend;
+
+          nixosConfigurations.container = import ./container.nix {
+            inherit system;
+            inherit nixpkgs;
+
+            frontend = pkgs.paste-frontend;
+            backend = pkgs.paste-backend;
+            release = pkgs.paste-release;
+          };
         }
-      );
+      ) // {
+      hydraJobs = {
+        container = self.nixosConfigurations.x86_64-linux.container;
+        backend = self.packages.x86_64-linux.paste-backend;
+        frontend = self.packages.x86_64-linux.paste-frontend;
+        client = self.packages.x86_64-linux.paste-client;
+      };
+    };
 }
